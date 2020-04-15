@@ -13,7 +13,7 @@ class GalleryViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var addButton: UIBarButtonItem!
     private var viewModel: GalleryCollectionViewModel!
-    private let sourceType: UIImagePickerController.SourceType = .photoLibrary
+    private let sourceType: UIImagePickerController.SourceType = .camera
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +24,7 @@ class GalleryViewController: UIViewController {
     
     // MARK: - Actions
     
-    @IBAction func addTapped(_ sender: Any) {
-        // TODO: initiate add process
+    @IBAction private func addTapped(_ sender: Any) {
         guard UIImagePickerController.isSourceTypeAvailable(sourceType) else { return }
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType

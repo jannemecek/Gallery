@@ -8,11 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		B72C4F0B2446636A0081B65A /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72C4F0A2446636A0081B65A /* ReusableCell.swift */; };
+		B72C4F34244756300081B65A /* Gallery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B72C4F32244756300081B65A /* Gallery.xcdatamodeld */; };
+		B72C4F3A244756510081B65A /* CacheableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72C4F39244756510081B65A /* CacheableImage.swift */; };
+		B72C4F492447571A0081B65A /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72C4F472447571A0081B65A /* Image.swift */; };
+		B72E368E2447614300E54982 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E368D2447614300E54982 /* Database.swift */; };
+		B72E36942447919E00E54982 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E36932447919E00E54982 /* UIImageExtensions.swift */; };
+		B72E36962447A97600E54982 /* CGSize+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E36952447A97600E54982 /* CGSize+Image.swift */; };
 		B7BD3E1A2444BD560057721C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BD3E192444BD560057721C /* AppDelegate.swift */; };
 		B7BD3E212444BD560057721C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7BD3E1F2444BD560057721C /* Main.storyboard */; };
 		B7BD3E232444BD590057721C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7BD3E222444BD590057721C /* Assets.xcassets */; };
 		B7BD3E262444BD590057721C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7BD3E242444BD590057721C /* LaunchScreen.storyboard */; };
-		B7BD3E312444BDDB0057721C /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BD3E302444BDDB0057721C /* Image.swift */; };
 		B7BD3E352444BE640057721C /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BD3E342444BE640057721C /* ImageCollectionViewCell.swift */; };
 		B7BD3E372444BEB70057721C /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BD3E362444BEB70057721C /* Network.swift */; };
 		B7BD3E3D2444C29F0057721C /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BD3E3C2444C29F0057721C /* Cancellable.swift */; };
@@ -27,13 +32,18 @@
 
 /* Begin PBXFileReference section */
 		B72C4F0A2446636A0081B65A /* ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
+		B72C4F33244756300081B65A /* Gallery.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Gallery.xcdatamodel; sourceTree = "<group>"; };
+		B72C4F39244756510081B65A /* CacheableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheableImage.swift; sourceTree = "<group>"; };
+		B72C4F472447571A0081B65A /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		B72E368D2447614300E54982 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		B72E36932447919E00E54982 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		B72E36952447A97600E54982 /* CGSize+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Image.swift"; sourceTree = "<group>"; };
 		B7BD3E162444BD560057721C /* Gallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7BD3E192444BD560057721C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B7BD3E202444BD560057721C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B7BD3E222444BD590057721C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B7BD3E252444BD590057721C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B7BD3E272444BD590057721C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B7BD3E302444BDDB0057721C /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		B7BD3E342444BE640057721C /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		B7BD3E362444BEB70057721C /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B7BD3E3C2444C29F0057721C /* Cancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
@@ -87,6 +97,7 @@
 				B7BD3E222444BD590057721C /* Assets.xcassets */,
 				B7BD3E242444BD590057721C /* LaunchScreen.storyboard */,
 				B7BD3E272444BD590057721C /* Info.plist */,
+				B72C4F32244756300081B65A /* Gallery.xcdatamodeld */,
 			);
 			path = Gallery;
 			sourceTree = "<group>";
@@ -104,6 +115,7 @@
 		B7BD3E2E2444BDBE0057721C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B72E368D2447614300E54982 /* Database.swift */,
 				B7BD3E362444BEB70057721C /* Network.swift */,
 				B7BD3E472444CE000057721C /* Router.swift */,
 				B7BD3E4B2444DE0B0057721C /* ImageCache.swift */,
@@ -115,7 +127,7 @@
 		B7BD3E2F2444BDC60057721C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B7BD3E302444BDDB0057721C /* Image.swift */,
+				B72C4F472447571A0081B65A /* Image.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -126,6 +138,7 @@
 				B7BD3E3C2444C29F0057721C /* Cancellable.swift */,
 				B72C4F0A2446636A0081B65A /* ReusableCell.swift */,
 				B7BD3E492444CE0C0057721C /* URLFactory.swift */,
+				B72C4F39244756510081B65A /* CacheableImage.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -133,6 +146,8 @@
 		B7BD3E392444C1B80057721C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				B72E36952447A97600E54982 /* CGSize+Image.swift */,
+				B72E36932447919E00E54982 /* UIImageExtensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -221,14 +236,19 @@
 				B7BD3E4E2444DE200057721C /* ImageLoader.swift in Sources */,
 				B7BD3E352444BE640057721C /* ImageCollectionViewCell.swift in Sources */,
 				B7BD3E372444BEB70057721C /* Network.swift in Sources */,
-				B7BD3E312444BDDB0057721C /* Image.swift in Sources */,
+				B72C4F34244756300081B65A /* Gallery.xcdatamodeld in Sources */,
 				B7BD3E482444CE000057721C /* Router.swift in Sources */,
 				B7BD3E3F2444C4180057721C /* GalleryViewController.swift in Sources */,
+				B72C4F3A244756510081B65A /* CacheableImage.swift in Sources */,
+				B72C4F492447571A0081B65A /* Image.swift in Sources */,
 				B7BD3E4A2444CE0C0057721C /* URLFactory.swift in Sources */,
 				B7BD3E1A2444BD560057721C /* AppDelegate.swift in Sources */,
 				B7BD3E462444CA500057721C /* PhotoDetailViewController.swift in Sources */,
 				B7BD3E422444C4BF0057721C /* GalleryCollectionViewModel.swift in Sources */,
+				B72E36962447A97600E54982 /* CGSize+Image.swift in Sources */,
+				B72E368E2447614300E54982 /* Database.swift in Sources */,
 				B72C4F0B2446636A0081B65A /* ReusableCell.swift in Sources */,
+				B72E36942447919E00E54982 /* UIImageExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +448,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B72C4F32244756300081B65A /* Gallery.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B72C4F33244756300081B65A /* Gallery.xcdatamodel */,
+			);
+			currentVersion = B72C4F33244756300081B65A /* Gallery.xcdatamodel */;
+			path = Gallery.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B7BD3E0E2444BD560057721C /* Project object */;
 }

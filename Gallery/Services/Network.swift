@@ -19,34 +19,35 @@ final class Network {
     
     @discardableResult
     func images(_ completion: @escaping (Result<[Image], Error>) -> Void) -> Cancellable {
-        // TODO: generalize this function to work with other routes and responses
-        let task = session.dataTask(with: Router.images.url(), completionHandler: { data, _ , error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            guard let data = data else {
-                // TODO: return mapping error
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-                let responseObject = try decoder.decode([Image].self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(responseObject))
+        return fetchData(Router.images) { (result) in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let context = Database().persistentContainer.newBackgroundContext()
+                    decoder.userInfo[CodingUserInfoKey.context!] = context
+                    let responseObject = try decoder.decode([Image].self, from: data)
+                    try context.save()
+                    DispatchQueue.main.async {
+                        completion(.success(responseObject))
+                    }
+                } catch {
+                    completion(.failure(error))
                 }
-            } catch {
+            case .failure(let error):
                 completion(.failure(error))
             }
-        })
-        task.resume()
-        return task
+        }
     }
     
     @discardableResult
     func downloadImageData(_ image: CacheableImage, completion: @escaping (Result<Data, Error>) -> Void) -> Cancellable {
-        // TODO: generalize this function to work with other routes and responses
-        let task = session.dataTask(with: Router.image(image).url(), completionHandler: { data, _ , error in
+        return fetchData(Router.image(image), completion: completion)
+    }
+    
+    @discardableResult
+    private func fetchData(_ route: URLFactory, completion: @escaping (Result<Data, Error>) -> Void) -> Cancellable {
+        let task = session.dataTask(with: route.url(), completionHandler: { data, _ , error in
             if let error = error {
                 completion(.failure(error))
                 return

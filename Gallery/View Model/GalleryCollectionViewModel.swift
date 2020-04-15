@@ -9,13 +9,14 @@
 import UIKit
 
 class GalleryCollectionViewModel: NSObject {
-    var collectionView: UICollectionView
     var images: [Image]! {
         didSet {
             collectionView.reloadData()
         }
     }
     fileprivate let imageLoader = ImageLoader.shared
+    private let collectionView: UICollectionView
+    private let database: Database = Database()
     private let network: Network = Network()
     
     init(collectionView: UICollectionView) {
@@ -27,10 +28,16 @@ class GalleryCollectionViewModel: NSObject {
     }
     
     private func loadImages() {
-        // TODO: persist in  DB
-        // TODO: handle errors gracefully
+        // check if we've already fetched images
+        // TODO: check if we should also call API if we have data
+        if let images: [Image] = database.objects(),
+            !images.isEmpty {
+            self.images = images
+            return
+        }
+        // TODO: handle errors a bit better (ie. offline state)
         network.images { result in
-            self.images = try? result.get()
+            self.loadImages()
         }
     }
     
@@ -39,25 +46,40 @@ class GalleryCollectionViewModel: NSObject {
     }
     
     func insertImage(_ pickedImage: UIImage) {
+        guard let data = pickedImage.pngData() else { return }
         // TODO: separate out image saving code
         let fileManager = FileManager.default
         do {
+            // write file
             let directory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             let id = UUID().uuidString
             let url = directory.appendingPathComponent(id)
-            try pickedImage.pngData()?.write(to: url)
-            let image = Image(id: id, path: url.absoluteString)
-            insertImage(image)
+            try data.write(to: url)
+            
+            // write to db
+            let context = self.database.persistentContainer.newBackgroundContext()
+            let image = Image(context: context)
+            image.id = id
+            image.picture = url.absoluteString
+            try context.save()
+            
+            // show in view model
+            if let viewImage: Image = database.persistentContainer.viewContext.object(with: image.objectID) as? Image {
+                self.insertImage(viewImage)
+            }
         } catch {
             print(error.localizedDescription)
         }
     }
     
     func insertImage(_ image: Image) {
-        // TODO: add to image cache immediately
-        let indexPath = IndexPath(item: 0, section: 0)
-        images.insert(image, at: indexPath.item)
-        collectionView.insertItems(at: [indexPath])
+        let indexPath = IndexPath(item: images.count, section: 0)
+        collectionView.performBatchUpdates({
+            self.images.append(image)
+            self.collectionView.insertItems(at: [indexPath])
+        }, completion: { (_) in
+            self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        })
     }
 }
 

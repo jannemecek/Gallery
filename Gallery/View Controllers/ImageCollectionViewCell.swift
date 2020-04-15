@@ -22,8 +22,6 @@ class ImageCollectionViewCell: UICollectionViewCell, ReusableCell {
     }
     
     func configure(_ image: Image, loader: ImageLoader) {
-        disposable = loader.loadImage(image) { [weak self] (image) in
-            self?.imageView.image = image
-        }
+        disposable = loader.loadImage(image, into: imageView)
     }
 }
