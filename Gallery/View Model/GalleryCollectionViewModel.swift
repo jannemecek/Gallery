@@ -15,6 +15,7 @@ class GalleryCollectionViewModel: NSObject {
             collectionView.reloadData()
         }
     }
+    fileprivate let imageLoader = ImageLoader.shared
     private let network: Network = Network()
     
     init(collectionView: UICollectionView) {
@@ -22,21 +23,41 @@ class GalleryCollectionViewModel: NSObject {
         super.init()
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
-        // TODO: register cell
-        // TODO: add a caching layer
+        loadImages()
     }
     
-    func loadImages() {
-        // TODO: prettify
-        network.images({ (images) in
-            self.images = images
-        }) { (error) in
-            print(error.localizedDescription)
+    private func loadImages() {
+        // TODO: persist in  DB
+        // TODO: handle errors gracefully
+        network.images { result in
+            self.images = try? result.get()
         }
     }
     
     func image(at indexPath: IndexPath) -> Image {
         return images[indexPath.item]
+    }
+    
+    func insertImage(_ pickedImage: UIImage) {
+        // TODO: separate out image saving code
+        let fileManager = FileManager.default
+        do {
+            let directory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            let id = UUID().uuidString
+            let url = directory.appendingPathComponent(id)
+            try pickedImage.pngData()?.write(to: url)
+            let image = Image(id: id, path: url.absoluteString)
+            insertImage(image)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func insertImage(_ image: Image) {
+        // TODO: add to image cache immediately
+        let indexPath = IndexPath(item: 0, section: 0)
+        images.insert(image, at: indexPath.item)
+        collectionView.insertItems(at: [indexPath])
     }
 }
 
@@ -53,7 +74,7 @@ extension GalleryCollectionViewModel: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: ImageCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-        cell.configure(image(at: indexPath))
+        cell.configure(image(at: indexPath), loader: imageLoader)
         return cell
     }
 }
@@ -63,7 +84,13 @@ extension GalleryCollectionViewModel: UICollectionViewDataSource {
 extension GalleryCollectionViewModel: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.map({image(at: $0)}).forEach({
-            ImageLoader.shared.loadImage($0, success: { _ in })
+            imageLoader.loadImage($0, success: { _ in })
+        })
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.map({image(at: $0)}).forEach({
+            imageLoader.cancelLoad($0)
         })
     }
 }

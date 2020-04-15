@@ -9,29 +9,34 @@
 import Foundation
 
 final class Network {
-    private let session = URLSession(configuration: .default)
+    private let session: URLSession = {
+        let configuration = URLSessionConfiguration.default
+        configuration.waitsForConnectivity = true
+        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        let session = URLSession(configuration: configuration)
+        return session
+    }()
     
     @discardableResult
-    func images(_ success: @escaping ([Image]) -> Void, failure: @escaping (Error) -> Void) -> Cancellable {
+    func images(_ completion: @escaping (Result<[Image], Error>) -> Void) -> Cancellable {
         // TODO: generalize this function to work with other routes and responses
         let task = session.dataTask(with: Router.images.url(), completionHandler: { data, _ , error in
             if let error = error {
-                failure(error)
+                completion(.failure(error))
                 return
             }
             guard let data = data else {
                 // TODO: return mapping error
                 return
             }
-            // TODO: parse response if needed
             do {
                 let decoder = JSONDecoder()
                 let responseObject = try decoder.decode([Image].self, from: data)
                 DispatchQueue.main.async {
-                    success(responseObject)
+                    completion(.success(responseObject))
                 }
             } catch {
-                failure(error)
+                completion(.failure(error))
             }
         })
         task.resume()
@@ -39,11 +44,11 @@ final class Network {
     }
     
     @discardableResult
-    func downloadImageData(_ image: CacheableImage, success: @escaping (Data) -> Void, failure: @escaping (Error) -> Void) -> Cancellable {
+    func downloadImageData(_ image: CacheableImage, completion: @escaping (Result<Data, Error>) -> Void) -> Cancellable {
         // TODO: generalize this function to work with other routes and responses
         let task = session.dataTask(with: Router.image(image).url(), completionHandler: { data, _ , error in
             if let error = error {
-                failure(error)
+                completion(.failure(error))
                 return
             }
             guard let data = data else {
@@ -51,7 +56,7 @@ final class Network {
                 return
             }
             DispatchQueue.main.async {
-                success(data)
+                completion(.success(data))
             }
         })
         task.resume()

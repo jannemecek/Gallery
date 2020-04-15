@@ -11,19 +11,26 @@ import UIKit
 class GalleryViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var addButton: UIBarButtonItem!
     private var viewModel: GalleryCollectionViewModel!
+    private let sourceType: UIImagePickerController.SourceType = .photoLibrary
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = GalleryCollectionViewModel(collectionView: collectionView)
-        viewModel.loadImages()
         collectionView.delegate = self
+        addButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(sourceType)
     }
     
     // MARK: - Actions
     
     @IBAction func addTapped(_ sender: Any) {
         // TODO: initiate add process
+        guard UIImagePickerController.isSourceTypeAvailable(sourceType) else { return }
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        imagePicker.delegate = self
+        present(imagePicker, animated: true, completion: nil)
     }
     
     // MARK: - Navigation
@@ -54,5 +61,15 @@ extension GalleryViewController: UICollectionViewDelegateFlowLayout {
         }
         let width: CGFloat = (view.safeAreaLayoutGuide.layoutFrame.width-cellsToFit)/cellsToFit
         return CGSize(width: width, height: width)
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+
+extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let pickedImage = info[.originalImage] as? UIImage else { return }
+        viewModel.insertImage(pickedImage)
     }
 }

@@ -14,13 +14,21 @@ protocol CacheableImage {
 }
 
 class Image: Codable, CacheableImage {
-    let comment: String
+    let id: String
     let picture: String
-    let id, publishedAt, title: String
+    let comment, publishedAt, title: String?
 
     enum CodingKeys: String, CodingKey {
         case comment, picture
         case id = "_id"
         case publishedAt, title
+    }
+    
+    init(id: String, path: String) {
+        self.id = id
+        self.picture = path
+        self.comment = nil
+        self.publishedAt = nil
+        self.title = nil
     }
 }

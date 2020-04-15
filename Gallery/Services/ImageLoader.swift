@@ -13,18 +13,34 @@ final class ImageLoader {
     static let shared = ImageLoader()
     private let cache = ImageCache()
     private let network = Network()
+    private var tasks: [IdType: Cancellable] = [:]
     
-    // TODO: add canceling pending requests, prevent double loading of same image
+    // TODO: prevent double loading of same image
     @discardableResult
     func loadImage(_ image: CacheableImage, success: @escaping (UIImage?) -> Void) -> Cancellable? {
         if let image = cache[image.id] {
             success(image)
             return nil
         }
-        return network.downloadImageData(image, success: { [weak self] (data) in
+        // TODO: check if we have it in disk cache
+        
+        // TODO: check if we're already loading this image
+//        guard tasks[image.id] == nil else {
+//            // TODO: add this completion to execute after it's done
+//        }
+        let task = network.downloadImageData(image, completion: { [weak self] (result) in
+            defer { self?.tasks[image.id] = nil }
+            guard let data = try? result.get() else { return }
             let decodedImage = UIImage(data: data)
             self?.cache[image.id] = decodedImage
             success(decodedImage)
-        }, failure: { _ in })
+        })
+        tasks[image.id] = task
+        return task
+    }
+    
+    func cancelLoad(_ image: CacheableImage) {
+        tasks[image.id]?.cancel()
+        tasks.removeValue(forKey: image.id)
     }
 }

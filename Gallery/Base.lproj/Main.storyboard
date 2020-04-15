@@ -88,6 +88,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addButton" destination="Za6-1J-zkm" id="uDv-G2-THb"/>
                         <outlet property="collectionView" destination="fqk-21-uL3" id="V85-9f-2Rg"/>
                     </connections>
                 </viewController>
@@ -113,7 +114,7 @@
                                                 <rect key="frame" x="87" y="0.0" width="240" height="100"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YiZ-Ed-5rd">
-                                                <rect key="frame" x="207" y="100" width="0.0" height="0.0"/>
+                                                <rect key="frame" x="20" y="100" width="374" height="0.0"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -133,10 +134,12 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="YiZ-Ed-5rd" firstAttribute="leading" secondItem="Tqb-lb-h2x" secondAttribute="leading" constant="20" id="7Nt-Ru-0PH"/>
                             <constraint firstItem="Tqb-lb-h2x" firstAttribute="trailing" secondItem="3aq-xX-brU" secondAttribute="trailing" id="HjX-6I-awE"/>
                             <constraint firstItem="Tqb-lb-h2x" firstAttribute="bottom" secondItem="co7-L1-StJ" secondAttribute="bottom" id="OYP-d8-7Nq"/>
                             <constraint firstItem="co7-L1-StJ" firstAttribute="leading" secondItem="Tqb-lb-h2x" secondAttribute="leading" id="Ssp-0B-fg0"/>
                             <constraint firstItem="co7-L1-StJ" firstAttribute="top" secondItem="Tqb-lb-h2x" secondAttribute="top" id="Veg-g9-McX"/>
+                            <constraint firstItem="Tqb-lb-h2x" firstAttribute="trailing" secondItem="YiZ-Ed-5rd" secondAttribute="trailing" constant="20" id="fok-M5-HYu"/>
                             <constraint firstItem="3aq-xX-brU" firstAttribute="leading" secondItem="Tqb-lb-h2x" secondAttribute="leading" id="wlA-Ow-mcm"/>
                             <constraint firstItem="Tqb-lb-h2x" firstAttribute="trailing" secondItem="co7-L1-StJ" secondAttribute="trailing" id="www-ul-xxI"/>
                         </constraints>
