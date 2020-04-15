@@ -52,10 +52,7 @@ final class Network {
                 completion(.failure(error))
                 return
             }
-            guard let data = data else {
-                // TODO: return mapping error
-                return
-            }
+            guard let data = data else { fatalError() }
             DispatchQueue.main.async {
                 completion(.success(data))
             }

@@ -16,15 +16,12 @@ final class ImageCache {
         let cache = NSCache<NSString, UIImage>()
         return cache
     }()
-    private let lock = NSLock()
     
     subscript(_ key: IdType) -> UIImage? {
         get {
             return imageCache.object(forKey: key as NSString)
         }
         set {
-            lock.lock()
-            defer { lock.unlock() }
             let key = key as NSString
             guard let value = newValue else {
                 imageCache.removeObject(forKey: key)

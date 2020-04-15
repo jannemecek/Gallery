@@ -27,7 +27,7 @@ class PhotoDetailViewController: UIViewController {
     }
     
     private func setup() {
-        disposable = imageLoader.loadImage(image, into: imageView)
+        disposable = imageLoader.loadImage(image, into: imageView, animated: false)
         descriptionLabel.text = image.comment
     }
     

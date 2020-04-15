@@ -10,8 +10,6 @@ import Foundation
 import CoreData
 
 class Database {
-    // MARK: - Core Data
-    
     private let queue = DispatchQueue(label: "database")
     
     lazy var persistentContainer: NSPersistentContainer = {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GalleryCollectionViewModel: NSObject {
+final class GalleryCollectionViewModel: NSObject {
     var images: [Image]! {
         didSet {
             collectionView.reloadData()
@@ -16,11 +16,13 @@ class GalleryCollectionViewModel: NSObject {
     }
     fileprivate let imageLoader = ImageLoader.shared
     private let collectionView: UICollectionView
+    private let statusLabel: UILabel
     private let database: Database = Database()
     private let network: Network = Network()
     
-    init(collectionView: UICollectionView) {
+    init(collectionView: UICollectionView, statusLabel: UILabel) {
         self.collectionView = collectionView
+        self.statusLabel = statusLabel
         super.init()
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
@@ -35,9 +37,14 @@ class GalleryCollectionViewModel: NSObject {
             self.images = images
             return
         }
-        // TODO: handle errors a bit better (ie. offline state)
-        network.images { result in
-            self.loadImages()
+        network.images { [weak self] result in
+            switch result {
+            case .success(let images):
+                guard !images.isEmpty else { return }
+                self?.loadImages()
+            case .failure(let error):
+                self?.statusLabel.text = error.localizedDescription
+            }
         }
     }
     
@@ -46,30 +53,10 @@ class GalleryCollectionViewModel: NSObject {
     }
     
     func insertImage(_ pickedImage: UIImage) {
-        guard let data = pickedImage.pngData() else { return }
-        // TODO: separate out image saving code
-        let fileManager = FileManager.default
-        do {
-            // write file
-            let directory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            let id = UUID().uuidString
-            let url = directory.appendingPathComponent(id)
-            try data.write(to: url)
-            
-            // write to db
-            let context = self.database.persistentContainer.newBackgroundContext()
-            let image = Image(context: context)
-            image.id = id
-            image.picture = url.absoluteString
-            try context.save()
-            
-            // show in view model
-            if let viewImage: Image = database.persistentContainer.viewContext.object(with: image.objectID) as? Image {
-                self.insertImage(viewImage)
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
+        guard let data = pickedImage.fixedOrientation()?.pngData(),
+            let id = database.insertData(data),
+            let viewImage: Image = database.persistentContainer.viewContext.object(with: id) as? Image else { return }
+        insertImage(viewImage)
     }
     
     func insertImage(_ image: Image) {

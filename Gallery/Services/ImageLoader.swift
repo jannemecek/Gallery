@@ -8,28 +8,26 @@
 
 import UIKit
 
-typealias ImageLoaderCompletion = (UIImage?) -> Void
-
 final class ImageLoader {
+    typealias Completion = (UIImage?) -> Void
+    
     static let shared = ImageLoader()
     // Currently used as a cache for decoded images. Ideally, we would separate image cache and decoded image cache
     private let cache = ImageCache()
     private let network = Network()
     private var tasks: [IdType: Cancellable] = [:]
-    private var loadQueue = DispatchQueue(label: "image_loader", qos: .background)
-    private var resizeQueue = DispatchQueue(label: "resize")
     
     // Resizes the image to match the receiver for optimum performance
     @discardableResult
-    func loadImage(_ image: CacheableImage, into view: UIImageView) -> Cancellable? {
+    func loadImage(_ image: CacheableImage, into view: UIImageView, animated: Bool = true) -> Cancellable? {
         return loadImage(image) { [weak view] (result) in
             guard let result = result,
                 let view = view else { return }
             let size = result.size.aspectFillSize(view.frame.size)
-            self.resizeQueue.async {
+            DispatchQueue.global(qos: .userInteractive).async {
                 let image = result.scaled(to: size)
                 DispatchQueue.main.async {
-                    view.image = image
+                    view.setImage(image, animated: animated)
                 }
             }
         }
@@ -38,7 +36,7 @@ final class ImageLoader {
     // Return the original decoded image, ideal for usage in sharing context
     // TODO: prevent double loading of same image
     @discardableResult
-    func loadImage(_ image: CacheableImage, success: @escaping ImageLoaderCompletion) -> Cancellable? {
+    func loadImage(_ image: CacheableImage, success: @escaping ImageLoader.Completion) -> Cancellable? {
         if let image = cache[image.id] {
             success(image)
             return nil
@@ -50,10 +48,10 @@ final class ImageLoader {
         return fetchImage(image, success: success)
     }
     
-    private func fetchImage(_ image: CacheableImage, success: @escaping ImageLoaderCompletion) -> Cancellable? {
+    private func fetchImage(_ image: CacheableImage, success: @escaping ImageLoader.Completion) -> Cancellable? {
         // check if local image
         if image.url().isFileURL {
-            loadQueue.async {
+            DispatchQueue.global(qos: .userInteractive).async {
                 self.loadLocalImage(image, success: success)
             }
             return nil
@@ -61,12 +59,10 @@ final class ImageLoader {
         let task = network.downloadImageData(image, completion: { [weak self] (result) in
             defer { self?.tasks[image.id] = nil }
             guard let data = try? result.get() else { return }
-            self?.loadQueue.async {
-                let decodedImage = UIImage(data: data)?.decoded()
-                self?.cache[image.id] = decodedImage
-                DispatchQueue.main.async {
-                    success(decodedImage)
-                }
+            let decodedImage = UIImage(data: data)?.decoded()
+            self?.cache[image.id] = decodedImage
+            DispatchQueue.main.async {
+                success(decodedImage)
             }
         })
         tasks[image.id] = task
@@ -74,7 +70,7 @@ final class ImageLoader {
     }
     
     // TODO: wrap this in an operation to make it cancellable
-    private func loadLocalImage(_ image: CacheableImage, success: @escaping ImageLoaderCompletion) {
+    private func loadLocalImage(_ image: CacheableImage, success: @escaping ImageLoader.Completion) {
         do {
             let directory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             let url = directory.appendingPathComponent(image.id)

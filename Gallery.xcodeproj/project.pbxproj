@@ -14,6 +14,8 @@
 		B72E368E2447614300E54982 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E368D2447614300E54982 /* Database.swift */; };
 		B72E36942447919E00E54982 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E36932447919E00E54982 /* UIImageExtensions.swift */; };
 		B72E36962447A97600E54982 /* CGSize+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E36952447A97600E54982 /* CGSize+Image.swift */; };
+		B72E36982447BAC400E54982 /* Database+Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E36972447BAC400E54982 /* Database+Files.swift */; };
+		B72E369A2447BFA300E54982 /* UIImageView+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E36992447BFA300E54982 /* UIImageView+Animation.swift */; };
 		B7BD3E1A2444BD560057721C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BD3E192444BD560057721C /* AppDelegate.swift */; };
 		B7BD3E212444BD560057721C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7BD3E1F2444BD560057721C /* Main.storyboard */; };
 		B7BD3E232444BD590057721C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7BD3E222444BD590057721C /* Assets.xcassets */; };
@@ -38,6 +40,8 @@
 		B72E368D2447614300E54982 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		B72E36932447919E00E54982 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		B72E36952447A97600E54982 /* CGSize+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Image.swift"; sourceTree = "<group>"; };
+		B72E36972447BAC400E54982 /* Database+Files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Files.swift"; sourceTree = "<group>"; };
+		B72E36992447BFA300E54982 /* UIImageView+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Animation.swift"; sourceTree = "<group>"; };
 		B7BD3E162444BD560057721C /* Gallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7BD3E192444BD560057721C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B7BD3E202444BD560057721C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				B72E368D2447614300E54982 /* Database.swift */,
+				B72E36972447BAC400E54982 /* Database+Files.swift */,
 				B7BD3E362444BEB70057721C /* Network.swift */,
 				B7BD3E472444CE000057721C /* Router.swift */,
 				B7BD3E4B2444DE0B0057721C /* ImageCache.swift */,
@@ -148,6 +153,7 @@
 			children = (
 				B72E36952447A97600E54982 /* CGSize+Image.swift */,
 				B72E36932447919E00E54982 /* UIImageExtensions.swift */,
+				B72E36992447BFA300E54982 /* UIImageView+Animation.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -236,6 +242,7 @@
 				B7BD3E4E2444DE200057721C /* ImageLoader.swift in Sources */,
 				B7BD3E352444BE640057721C /* ImageCollectionViewCell.swift in Sources */,
 				B7BD3E372444BEB70057721C /* Network.swift in Sources */,
+				B72E36982447BAC400E54982 /* Database+Files.swift in Sources */,
 				B72C4F34244756300081B65A /* Gallery.xcdatamodeld in Sources */,
 				B7BD3E482444CE000057721C /* Router.swift in Sources */,
 				B7BD3E3F2444C4180057721C /* GalleryViewController.swift in Sources */,
@@ -247,6 +254,7 @@
 				B7BD3E422444C4BF0057721C /* GalleryCollectionViewModel.swift in Sources */,
 				B72E36962447A97600E54982 /* CGSize+Image.swift in Sources */,
 				B72E368E2447614300E54982 /* Database.swift in Sources */,
+				B72E369A2447BFA300E54982 /* UIImageView+Animation.swift in Sources */,
 				B72C4F0B2446636A0081B65A /* ReusableCell.swift in Sources */,
 				B72E36942447919E00E54982 /* UIImageExtensions.swift in Sources */,
 			);
@@ -393,7 +401,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 89BDAY3D45;
+				DEVELOPMENT_TEAM = B9MX37X4GE;
 				INFOPLIST_FILE = Gallery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -412,7 +420,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 89BDAY3D45;
+				DEVELOPMENT_TEAM = B9MX37X4GE;
 				INFOPLIST_FILE = Gallery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

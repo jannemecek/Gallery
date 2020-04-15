@@ -31,11 +31,23 @@ extension UIImage {
         return self
     }
     
-    func scaled(to size: CGSize) -> UIImage {
+    func scaled(to size: CGSize) -> UIImage! {
         UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
         draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return resizedImage!
+        return resizedImage
+    }
+    
+    // Renders the image with the "correct" orientation
+    func fixedOrientation() -> UIImage! {
+        guard imageOrientation != .up else {
+            return self
+        }
+        UIGraphicsBeginImageContext(size)
+        self.draw(in: CGRect(origin: .zero, size: size))
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return normalizedImage
     }
 }

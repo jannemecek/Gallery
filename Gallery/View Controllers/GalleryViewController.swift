@@ -12,12 +12,19 @@ class GalleryViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var addButton: UIBarButtonItem!
+    lazy private var backgroundLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textAlignment = .center
+        return label
+    }()
     private var viewModel: GalleryCollectionViewModel!
     private let sourceType: UIImagePickerController.SourceType = .camera
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = GalleryCollectionViewModel(collectionView: collectionView)
+        viewModel = GalleryCollectionViewModel(collectionView: collectionView, statusLabel: backgroundLabel)
+        collectionView.backgroundView = backgroundLabel
         collectionView.delegate = self
         addButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(sourceType)
     }
